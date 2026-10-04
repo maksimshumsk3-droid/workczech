@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WorkCzech — Робота в Чехії 🇺🇦🇨🇿</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#172033}.hero{padding:48px 20px;background:#123b91;color:white}.wrap{max-width:1100px;margin:auto}.hero h1{font-size:48px;margin:15px 0}.hero p{font-size:18px;line-height:1.5}.search{padding:14px;border:0;border-radius:10px;width:min(600px,90%);font-size:16px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;padding:30px 20px}.card{background:white;padding:22px;border-radius:16px;box-shadow:0 5px 20px #0001}.company{color:#1457ff;font-weight:bold}.salary{font-size:20px;font-weight:bold;margin:12px 0}.tag{display:inline-block;background:#eef2f8;padding:6px 9px;border-radius:20px;font-size:12px;margin:3px}.apply{display:block;background:#1457ff;color:white;text-decoration:none;text-align:center;padding:11px;border-radius:10px;margin-top:18px}.empty{text-align:center;padding:40px;color:#68758a}.top{text-align:center;padding:8px;background:#0e1b32;color:#fff;font-size:13px}
+</style></head><body>
+<div class="top">🇺🇦 Для українців у Чехії · 🇨🇿 Пошук роботи простіше</div>
+<header class="hero"><div class="wrap"><b>WorkCzech 🇺🇦🇨🇿</b><h1>Знайди роботу в Чехії</h1><p>Актуальні вакансії у виробництві, логістиці та інших сферах. Шукай за містом, компанією або посадою.</p><input class="search" id="q" placeholder="🔎 Пошук вакансій..."></div></header>
+<main class="grid" id="grid"></main><div class="empty" id="empty">Вакансій не знайдено.</div>
+<script>
+const jobs=[
+["Lear","Оператор виробництва","Ostrov u Stříbra / Plzeň","від 210 Kč/год","Житло є","tel:+420775166993","Виготовлення автомобільних сидінь, монтаж компонентів та контроль якості. 2 зміни по 8–12 годин."],
+["GXO s.r.o.","Склад / логістика","Bor u Tachova / Plzeň","29 825 Kč/міс","Житло є","tel:+420775166993","Робота на складі та в логістиці. Офіційне працевлаштування HPP."],
+["KOEVER","Виробництво автомобільних модулів","Прага-захід","від 180 Kč/год чистими","Житла немає","tel:+420775166993","3 зміни по 8 годин. Офіційне працевлаштування HPP, 25 днів оплачуваної відпустки."],
+["KAUFLAND","Логістичний центр","Praha-východ","36 500 Kč/міс","Житла немає","tel:+420775166993","Логістичний центр продуктів харчування. 5 днів на тиждень, зміни."],
+["Mubea","Оператор виробництва / VZV","Žebrák / Plzeň","160–165 Kč/год","Житло є","tel:+420775166993","Виробництво автомобільних деталей. 3 зміни по 8–12 годин, можливі додаткові години."],
+["Panasonic","Виробництво / VZV","Plzeň","170–190 Kč/год","Житло є","tel:+420775166993","Виробництво та складські позиції, можливість роботи VZV."],
+["Loxxess","Склад","Bor u Tachova / Plzeň","150–160 Kč/год чистими","Житло є","tel:+420775166993","Збирання та пакування замовлень для інтернет-магазину."],
+["Novares Janovice","Оператор виробництва","Janovice nad Úhlavou","140–174 Kč/год","Житло є","tel:+420775166993","Легка робота на виробництві автомобільних деталей. 3 зміни по 8 годин."],
+["DAIKIN","Оператор виробництва","Plzeň","24 750 Kč/міс + бонуси","Житло є","tel:+420775166993","Виробництво кондиціонерів та компресорів. 3 зміни по 8 годин."],
+["National Pen Czech","Оператор / налагоджувальник / VZV","Štěnovice / Plzeň","150–200+ Kč/год","Житло є","tel:+420775166993","Виробництво та брендування рекламної продукції. Є позиції для операторів, налагоджувальників і VZV."]
+];
+const grid=document.getElementById("grid"),q=document.getElementById("q"),empty=document.getElementById("empty");
+function render(){let s=q.value.toLowerCase();let a=jobs.filter(j=>j.join(" ").toLowerCase().includes(s));grid.innerHTML=a.map(j=>`<article class="card"><div class="company">${j[0]}</div><h2>${j[1]}</h2><span class="tag">📍 ${j[2]}</span><span class="tag">🏠 ${j[4]}</span><div class="salary">💰 ${j[3]}</div><p>${j[6]}</p><a class="apply" href="${j[5]}">Зв'язатися</a></article>`).join("");empty.style.display=a.length?"none":"block"}q.addEventListener("input",render);render();
+</script></body></html>

@@ -92,21 +92,23 @@ const jobs=[
 const tg="https://t.me/paskayeheb",wa="https://wa.me/420775166993",vb="viber://chat?number=%2B380975378946";
 const grid=document.getElementById("grid"),q=document.getElementById("q"),empty=document.getElementById("empty");
 const aliases={
- "прага":["prague","praha","prag","praga","прага","празі","прагу","праги"],
- "пльзень":["plzen","plzeň","pilsen","пльзень","пльзені","пльзеня"],
- "брно":["brno","brünn","брно","брні"],
- "острава":["ostrava","ostrau","острава","остраві"],
- "ліберец":["liberec","reichenberg","ліберец","ліберці"],
- "карлові вари":["karlovy vary","karlsbad","карлові вари","карлових варах"],
- "пардубіце":["pardubice","pardubitz","пардубіце","пардубіцях"],
- "оломоуц":["olomouc","olmütz","оломоуц","оломоуці"],
- "ческе будейовіце":["ceske budejovice","české budějovice","budweis","ческе будейовіце"],
- "клатови":["klatovy","клатови","клатовах"],
- "бор":["bor u tachova","bor","бор"],
- "жебрак":["zebrak","žebrák","жебрак"],
- "штєновіце":["stenovice","štěnovice","штєновіце"],
- "остров":["ostrov","остров"],
- "janovice":["janovice nad úhlavou","janovice","яновіце"]
+ "прага":["praha","prague","prag","praga"],
+ "пльзень":["plzen","plzeň","pilsen"],
+ "бор у тахова":["bor u tachova","bor","tachov"],
+ "прага-захід":["praha-zapad","praha-západ","prague-west","prague west"],
+ "прага-схід":["praha-vychod","praha-východ","prague-east","prague east"],
+ "жебрак":["zebrak","žebrák"],
+ "штєновіце":["stenovice","štěnovice"],
+ "яновіце":["janovice","janovice nad uhlavou","janovice nad úhlavou"],
+ "остров":["ostrov"],
+ "брно":["brno","brünn"],
+ "острава":["ostrava","ostrau"],
+ "ліберец":["liberec","reichenberg"],
+ "карлові вари":["karlovy vary","karlsbad"],
+ "пардубіце":["pardubice","pardubitz"],
+ "оломоуц":["olomouc","olmütz"],
+ "ческе будейовіце":["ceske budejovice","české budějovice","budweis"],
+ "клатови":["klatovy"]
 };
 function normalize(s){
  return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ё/g,"е").trim();
@@ -114,21 +116,20 @@ function normalize(s){
 function render(){
  const query=normalize(q.value||"");
  const terms=query.split(/\s+/).filter(Boolean);
- const expanded=terms.flatMap(term=>{
-   const key=Object.keys(aliases).find(k=>normalize(k)===term);
-   return key?[...aliases[key],key]:[term];
- });
  const filtered=jobs.filter(j=>{
    const text=normalize(j.join(" "));
-   return expanded.every(term=>text.includes(normalize(term)));
+   return terms.every(term=>{
+     return Object.entries(aliases).some(([uk,variants])=>{
+       const names=[uk,...variants].map(normalize);
+       return names.some(name=>name.includes(term)||term.includes(name)) && names.some(name=>text.includes(name));
+     }) || text.includes(term);
+   });
  });
- grid.innerHTML=filtered.map((j,i)=>`<article class="card">
- <div class="company">${j[0]}</div>
- <h3>${j[1]}</h3>
+ grid.innerHTML=filtered.map(j=>`<article class="card">
+ <div class="company">${j[0]}</div><h3>${j[1]}</h3>
  <div class="tags"><span class="tag">📍 ${j[2]}</span><span class="tag">🏠 ${j[4]}</span></div>
- <div class="salary">${j[3]}</div>
- <p class="desc">${j[5]}</p>
- <div class="actions"><a class="btn btn-main" href="${wa}" target="_blank" rel="noopener">WhatsApp</a><a class="btn btn-light" href="${tg}" target="_blank" rel="noopener">Telegram</a></div>
+ <div class="salary">${j[3]}</div><p class="desc">${j[5]}</p>
+ <div class="actions"><a class="btn btn-main" href="${wa}" target="_blank" rel="noopener">WhatsApp</a><a class="btn btn-light" href="${tg}" target="_blank" rel="noopener">Telegram</a><a class="btn btn-light" href="${vb}">Viber</a></div>
  </article>`).join("");
  empty.style.display=filtered.length?"none":"block";
 }

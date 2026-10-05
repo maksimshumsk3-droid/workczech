@@ -98,7 +98,42 @@ const grid=document.getElementById("grid"),q=document.getElementById("q"),empty=
 const aliases={"прага":["praha","prague","prag","praga"],"пльзень":["plzen","plzeň","pilsen"],"бор у тахова":["bor u tachova","bor","tachov"],"прага-захід":["praha-zapad","praha-západ","prague-west","prague west"],"прага-схід":["praha-vychod","praha-východ","prague-east","prague east"],"жебрак":["zebrak","žebrák"],"штєновіце":["stenovice","štěnovice"],"яновіце":["janovice","janovice nad uhlavou","janovice nad úhlavou"],"остров":["ostrov"],"брно":["brno","brünn"],"острава":["ostrava","ostrau"],"ліберец":["liberec","reichenberg"],"карлові вари":["karlovy vary","karlsbad"],"пардубіце":["pardubice","pardubitz"],"оломоуц":["olomouc","olmütz"],"ческе будейовіце":["ceske budejovice","české budějovice","budweis"],"клатови":["klatovy"]};
 function normalize(s){return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ё/g,"е").trim()}
 function render(){const query=normalize(q.value||"");const terms=query.split(/\s+/).filter(Boolean);const filtered=jobs.filter(j=>{const text=normalize(j.join(" "));return terms.every(term=>{const groups=Object.entries(aliases).filter(([uk,v])=>[uk,...v].map(normalize).some(n=>n.includes(term)||term.includes(n)));return groups.length?groups.some(([uk,v])=>[uk,...v].map(normalize).some(n=>text.includes(n))):text.includes(term)})});grid.innerHTML=filtered.map(j=>`<article class="card"><div class="company">${j[0]}</div><h3>${j[1]}</h3><div class="tags"><span class="tag">📍 ${j[2]}</span><span class="tag">🏠 ${j[4]}</span></div><div class="salary">${j[3]}</div><p class="desc">${j[5]}</p><div class="actions"><a class="btn btn-main" href="${wa}" target="_blank" rel="noopener">WhatsApp</a><a class="btn btn-telegram" href="${tg}" target="_blank" rel="noopener">Telegram</a><a class="btn btn-viber" href="${vb}">Viber</a></div></article>`).join("");empty.style.display=filtered.length?"none":"block"}
-document.getElementById("candidateForm").addEventListener("submit",function(e){e.preventDefault();const name=document.getElementById("name").value.trim(),phone=document.getElementById("phone").value.trim(),status=document.getElementById("status").value,job=document.getElementById("job").value.trim(),city=document.getElementById("city").value.trim(),housing=document.getElementById("housing").value,info=document.getElementById("info").value.trim();const msg="📝 НОВА ЗАЯВКА WORKCZECH%0A%0A👤 Ім'я: "+encodeURIComponent(name)+"%0A📱 Телефон: "+encodeURIComponent(phone)+"%0A🇨🇿 Статус: "+encodeURIComponent(status)+"%0A💼 Робота: "+encodeURIComponent(job)+"%0A📍 Місто: "+encodeURIComponent(city)+"%0A🏠 Житло: "+encodeURIComponent(housing)+"%0A💬 Додаткова інформація: "+encodeURIComponent(info||"—");document.getElementById("formSuccess").hidden=false;window.open("https://wa.me/420775166993?text="+msg,"_blank");});
+const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbwXdDGabFBIexh_L08idGy2MBuvyhRhERmVasP9UR3y7zLPIB6TPjQjzOtyHmeN_Jgs/exec";
+document.getElementById("candidateForm").addEventListener("submit",async function(e){
+ e.preventDefault();
+ const form=this;
+ const submit=form.querySelector(".form-submit");
+ const success=document.getElementById("formSuccess");
+ const data={
+  name:document.getElementById("name").value.trim(),
+  phone:document.getElementById("phone").value.trim(),
+  status:document.getElementById("status").value,
+  job:document.getElementById("job").value.trim(),
+  city:document.getElementById("city").value.trim(),
+  housing:document.getElementById("housing").value,
+  info:document.getElementById("info").value.trim()
+ };
+ submit.disabled=true;
+ submit.textContent="⏳ Надсилаємо...";
+ try{
+  await fetch(GOOGLE_SCRIPT_URL,{
+   method:"POST",
+   mode:"no-cors",
+   headers:{"Content-Type":"text/plain;charset=utf-8"},
+   body:JSON.stringify(data)
+  });
+  success.textContent="✅ Дякуємо! Заявку успішно відправлено. Ми зв'яжемося з вами найближчим часом.";
+  success.hidden=false;
+  form.reset();
+ }catch(error){
+  console.error("WorkCzech form error:",error);
+  success.textContent="❌ Не вдалося відправити заявку. Спробуйте ще раз або напишіть нам у месенджер.";
+  success.hidden=false;
+ }finally{
+  submit.disabled=false;
+  submit.textContent="📩 Надіслати заявку";
+ }
+});
 q.addEventListener("input",render);render();
 </script>
 </body></html>

@@ -79,7 +79,21 @@ const jobs=[
 ];
 
 const tg="https://t.me/paskayeheb",wa="https://wa.me/420775166993",vb="viber://chat?number=%2B380975378946";
-const grid=document.getElementById("grid"),q=document.getElementById("q"),empty=document.getElementById("empty");q.addEventListener("input",render);render();
+const grid=document.getElementById("grid"),q=document.getElementById("q"),empty=document.getElementById("empty");
+function render(){
+ const query=(q.value||"").trim().toLowerCase();
+ const filtered=jobs.filter(j=>j.join(" ").toLowerCase().includes(query));
+ grid.innerHTML=filtered.map((j,i)=>`<article class="card">
+ <div class="company">${j[0]}</div>
+ <h3>${j[1]}</h3>
+ <div class="tags"><span class="tag">📍 ${j[2]}</span><span class="tag">🏠 ${j[4]}</span></div>
+ <div class="salary">${j[3]}</div>
+ <p class="desc">${j[5]}</p>
+ <div class="actions"><a class="btn btn-main" href="${wa}" target="_blank" rel="noopener">WhatsApp</a><a class="btn btn-light" href="${tg}" target="_blank" rel="noopener">Telegram</a></div>
+ </article>`).join("");
+ empty.style.display=filtered.length?"none":"block";
+}
+q.addEventListener("input",render);render();
 
 document.getElementById("candidateForm").addEventListener("submit",e=>{
  e.preventDefault();

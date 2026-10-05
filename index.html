@@ -39,15 +39,7 @@ footer{background:linear-gradient(135deg,#0b1830,#102f73);color:#cbd5e1;padding:
 
 <section class="section" id="apply"><div class="wrap"><div class="contactgrid">
 <div class="panel"><h2>📝 Залишити свої дані</h2><p class="subtitle">Заповни анкету — з тобою зв'яжуться щодо відповідних вакансій.</p>
-<form id="candidateForm">
-<label>Ім'я та прізвище<input id="name" required placeholder="Наприклад: Анна Коваль"></label>
-<label>Номер телефону<input id="phone" required type="tel" placeholder="+420 ... або +380 ..."></label>
-<label>Документи / статус у Чехії<select id="status" required><option value="">Оберіть варіант</option><option>Віза тимчасового захисту</option><option>Довгострокова віза</option><option>Дозвіл на проживання</option><option>Постійне проживання</option><option>Інше / потрібна консультація</option></select></label>
-<label>Бажана робота / місто<textarea id="wish" placeholder="Наприклад: склад у Празі, виробництво в Пльзені..."></textarea></label>
-<label>Документи (за бажанням)<input id="docs" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"></label>
-<div class="notice">🔒 Не завантажуйте сюди паспорти чи інші чутливі документи, доки не буде підключено захищене серверне сховище. Наразі форма готує заявку для надсилання через WhatsApp.</div>
-<button class="submit" type="submit">📲 Підготувати заявку у WhatsApp</button>
-</form></div>
+<div class="notice" style="font-size:14px;padding:16px;background:#f5f8ff;border:1px solid #dbe6ff"><b>🔒 Ваші дані у безпеці</b><br>Не надсилайте паспорт, ID-картку чи інші чутливі документи. Для першої заявки достатньо контактних даних, статусу в Чехії та інформації про бажану роботу.</div><p class="subtitle" style="margin-top:18px">Натисніть кнопку нижче та заповніть коротку анкету. Відповіді надходитимуть у нашу систему заявок.</p><a class="submit" href="https://docs.google.com/forms/d/e/1FAIpQLSfBrBb-Pki-1SSpymkw81a4ONkuH9Z5E48z1_o_mbFGNnkzZw/viewform" target="_blank" rel="noopener" style="display:block;text-align:center">📝 Заповнити анкету WorkCzech</a></div>
 
 
 </div></div></section>
@@ -92,64 +84,11 @@ const jobs=[
 ["DAIKIN","Оператор виробництва","Plzeň","24 750 Kč/міс + бонуси","Житло є","Виробництво кондиціонерів та компресорів. 3 зміни по 8 годин."],
 ["National Pen Czech","Оператор / налагоджувальник / VZV","Štěnovice / Plzeň","150–200+ Kč/год","Житло є","Виробництво та брендування рекламної продукції. Є позиції для операторів, налагоджувальників і VZV."]
 ];
-
 const tg="https://t.me/paskayeheb",wa="https://wa.me/420775166993",vb="viber://chat?number=%2B380975378946";
 const grid=document.getElementById("grid"),q=document.getElementById("q"),empty=document.getElementById("empty");
-const aliases={
- "прага":["praha","prague","prag","praga"],
- "пльзень":["plzen","plzeň","pilsen"],
- "бор у тахова":["bor u tachova","bor","tachov"],
- "прага-захід":["praha-zapad","praha-západ","prague-west","prague west"],
- "прага-схід":["praha-vychod","praha-východ","prague-east","prague east"],
- "жебрак":["zebrak","žebrák"],
- "штєновіце":["stenovice","štěnovice"],
- "яновіце":["janovice","janovice nad uhlavou","janovice nad úhlavou"],
- "остров":["ostrov"],
- "брно":["brno","brünn"],
- "острава":["ostrava","ostrau"],
- "ліберец":["liberec","reichenberg"],
- "карлові вари":["karlovy vary","karlsbad"],
- "пардубіце":["pardubice","pardubitz"],
- "оломоуц":["olomouc","olmütz"],
- "ческе будейовіце":["ceske budejovice","české budějovice","budweis"],
- "клатови":["klatovy"]
-};
-function normalize(s){
- return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ё/g,"е").trim();
-}
-function render(){
- const query=normalize(q.value||"");
- const terms=query.split(/\s+/).filter(Boolean);
- const filtered=jobs.filter(j=>{
-   const text=normalize(j.join(" "));
-   return terms.every(term=>{
-     const matchingGroups=Object.entries(aliases).filter(([uk,variants])=>{
-       const names=[uk,...variants].map(normalize);
-       return names.some(name=>name.includes(term)||term.includes(name));
-     });
-     return matchingGroups.length
-       ? matchingGroups.some(([uk,variants])=>{
-           const names=[uk,...variants].map(normalize);
-           return names.some(name=>names.some(alias=>text.includes(alias)));
-         })
-       : text.includes(term);
-   });
- });
- grid.innerHTML=filtered.map(j=>`<article class="card">
- <div class="company">${j[0]}</div><h3>${j[1]}</h3>
- <div class="tags"><span class="tag">📍 ${j[2]}</span><span class="tag">🏠 ${j[4]}</span></div>
- <div class="salary">${j[3]}</div><p class="desc">${j[5]}</p>
- <div class="actions"><a class="btn btn-main" href="${wa}" target="_blank" rel="noopener">WhatsApp</a><a class="btn btn-telegram" href="${tg}" target="_blank" rel="noopener">Telegram</a><a class="btn btn-viber" href="${vb}">Viber</a></div>
- </article>`).join("");
- empty.style.display=filtered.length?"none":"block";
-}
+const aliases={"прага":["praha","prague","prag","praga"],"пльзень":["plzen","plzeň","pilsen"],"бор у тахова":["bor u tachova","bor","tachov"],"прага-захід":["praha-zapad","praha-západ","prague-west","prague west"],"прага-схід":["praha-vychod","praha-východ","prague-east","prague east"],"жебрак":["zebrak","žebrák"],"штєновіце":["stenovice","štěnovice"],"яновіце":["janovice","janovice nad uhlavou","janovice nad úhlavou"],"остров":["ostrov"],"брно":["brno","brünn"],"острава":["ostrava","ostrau"],"ліберец":["liberec","reichenberg"],"карлові вари":["karlovy vary","karlsbad"],"пардубіце":["pardubice","pardubitz"],"оломоуц":["olomouc","olmütz"],"ческе будейовіце":["ceske budejovice","české budějovice","budweis"],"клатови":["klatovy"]};
+function normalize(s){return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ё/g,"е").trim()}
+function render(){const query=normalize(q.value||"");const terms=query.split(/\s+/).filter(Boolean);const filtered=jobs.filter(j=>{const text=normalize(j.join(" "));return terms.every(term=>{const groups=Object.entries(aliases).filter(([uk,v])=>[uk,...v].map(normalize).some(n=>n.includes(term)||term.includes(n)));return groups.length?groups.some(([uk,v])=>[uk,...v].map(normalize).some(n=>text.includes(n))):text.includes(term)})});grid.innerHTML=filtered.map(j=>`<article class="card"><div class="company">${j[0]}</div><h3>${j[1]}</h3><div class="tags"><span class="tag">📍 ${j[2]}</span><span class="tag">🏠 ${j[4]}</span></div><div class="salary">${j[3]}</div><p class="desc">${j[5]}</p><div class="actions"><a class="btn btn-main" href="${wa}" target="_blank" rel="noopener">WhatsApp</a><a class="btn btn-telegram" href="${tg}" target="_blank" rel="noopener">Telegram</a><a class="btn btn-viber" href="${vb}">Viber</a></div></article>`).join("");empty.style.display=filtered.length?"none":"block"}
 q.addEventListener("input",render);render();
-
-document.getElementById("candidateForm").addEventListener("submit",e=>{
- e.preventDefault();
- const name=document.getElementById("name").value,phone=document.getElementById("phone").value,status=document.getElementById("status").value,wish=document.getElementById("wish").value,files=[...document.getElementById("docs").files].map(f=>f.name).join(", ");
- const msg="Заявка WorkCzech%0AІм'я: "+encodeURIComponent(name)+"%0AТелефон: "+encodeURIComponent(phone)+"%0AДокументи/статус: "+encodeURIComponent(status)+"%0AБажана робота: "+encodeURIComponent(wish||"Не вказано")+"%0AФайли: "+encodeURIComponent(files||"Не додано");
- window.open("https://wa.me/420775166993?text="+msg,"_blank");
-});
 </script>
 </body></html>

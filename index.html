@@ -1,27 +1,107 @@
 <!doctype html>
 <html lang="uk">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="WorkCzech — пошук роботи в Чехії для українців. Вакансії, контакти та анкета кандидата.">
 <title>WorkCzech — Робота в Чехії 🇺🇦🇨🇿</title>
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#172033}.hero{padding:48px 20px;background:#123b91;color:white}.wrap{max-width:1100px;margin:auto}.hero h1{font-size:48px;margin:15px 0}.hero p{font-size:18px;line-height:1.5}.search{padding:14px;border:0;border-radius:10px;width:min(600px,90%);font-size:16px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;padding:30px 20px}.card{background:white;padding:22px;border-radius:16px;box-shadow:0 5px 20px #0001}.company{color:#1457ff;font-weight:bold}.salary{font-size:20px;font-weight:bold;margin:12px 0}.tag{display:inline-block;background:#eef2f8;padding:6px 9px;border-radius:20px;font-size:12px;margin:3px}.apply{display:block;background:#1457ff;color:white;text-decoration:none;text-align:center;padding:11px;border-radius:10px;margin-top:18px}.empty{text-align:center;padding:40px;color:#68758a}.top{text-align:center;padding:8px;background:#0e1b32;color:#fff;font-size:13px}
-</style></head><body>
-<div class="top">🇺🇦 Для українців у Чехії · 🇨🇿 Пошук роботи простіше</div>
-<header class="hero"><div class="wrap"><b>WorkCzech 🇺🇦🇨🇿</b><h1>Знайди роботу в Чехії</h1><p>Актуальні вакансії у виробництві, логістиці та інших сферах. Шукай за містом, компанією або посадою.</p><input class="search" id="q" placeholder="🔎 Пошук вакансій..."></div></header>
-<main class="grid" id="grid"></main><div class="empty" id="empty">Вакансій не знайдено.</div>
+:root{--blue:#1457ff;--blue2:#0d3fae;--ink:#172033;--muted:#64748b;--bg:#f4f7fc;--card:#fff;--line:#e5eaf2;--green:#16a34a}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+a{text-decoration:none}.top{background:#0d1b34;color:#fff;text-align:center;padding:9px 15px;font-size:13px}
+nav{position:sticky;top:0;z-index:10;background:#ffffffee;backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.navin{max-width:1160px;margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:15px}.logo{font-weight:900;font-size:22px;color:var(--blue)}.navlinks{display:flex;gap:8px;flex-wrap:wrap}.navlinks a{color:var(--ink);padding:9px 12px;border-radius:10px;font-weight:700}.navlinks a:hover{background:#eef3ff;color:var(--blue)}
+.hero{background:radial-gradient(circle at 85% 15%,#4d7cff55,transparent 28%),linear-gradient(135deg,#102b70,#1457ff);color:white;padding:64px 20px 70px}.wrap{max-width:1160px;margin:auto}.hero h1{font-size:clamp(38px,6vw,68px);line-height:1.02;margin:20px 0 14px;letter-spacing:-2px}.hero p{max-width:700px;font-size:18px;line-height:1.65;color:#e7edff}.searchbox{margin-top:28px;display:flex;gap:10px;max-width:760px}.search{flex:1;padding:16px 18px;border:0;border-radius:14px;font-size:16px;outline:none;box-shadow:0 10px 30px #00154d33}.primary{border:0;background:#fff;color:var(--blue);font-weight:800;padding:0 22px;border-radius:14px;cursor:pointer}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:-28px;position:relative;padding:0 20px}.stat{background:white;border:1px solid var(--line);border-radius:18px;padding:18px;text-align:center;box-shadow:0 10px 30px #14213d0d}.stat b{display:block;font-size:24px}.stat span{color:var(--muted);font-size:13px}
+.section{padding:54px 20px}.section h2{font-size:32px;margin:0 0 8px}.subtitle{color:var(--muted);margin:0 0 25px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px}.card{background:var(--card);padding:22px;border-radius:20px;border:1px solid var(--line);box-shadow:0 8px 28px #14213d0a;transition:.2s}.card:hover{transform:translateY(-3px);box-shadow:0 14px 35px #14213d16}.company{color:var(--blue);font-weight:800;font-size:14px}.card h3{font-size:20px;margin:8px 0 13px}.salary{font-size:21px;font-weight:900;margin:14px 0}.tags{display:flex;flex-wrap:wrap;gap:6px}.tag{background:#f0f4fa;padding:7px 9px;border-radius:999px;font-size:12px;color:#475569}.desc{color:#526078;line-height:1.55;min-height:72px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:17px}.btn{border:0;border-radius:11px;padding:11px 8px;text-align:center;font-weight:800;cursor:pointer;font-size:14px}.btn-main{background:var(--blue);color:#fff}.btn-light{background:#eef3ff;color:var(--blue)}
+.contactgrid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:25px;box-shadow:0 8px 28px #14213d0a}.panel h3{margin-top:0}.contactbuttons{display:grid;gap:10px}.contact{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:12px;color:#fff;font-weight:800}.tg{background:#229ed9}.wa{background:#20b958}.vb{background:#665cac}
+form{display:grid;gap:12px}label{font-size:13px;font-weight:800}input,select,textarea{width:100%;padding:13px;border:1px solid #d8dfeb;border-radius:11px;font:inherit;background:#fff}textarea{min-height:100px;resize:vertical}.submit{background:var(--blue);color:#fff;border:0;border-radius:12px;padding:14px;font-weight:900;cursor:pointer}.notice{font-size:12px;color:#64748b;line-height:1.5;background:#f7f9fd;padding:12px;border-radius:10px}.comments{margin-top:18px;border-top:1px solid var(--line);padding-top:15px}.comment{padding:11px 0;border-bottom:1px solid #edf0f5}.comment b{font-size:13px}.comment p{margin:5px 0;color:#526078;font-size:14px}.empty{text-align:center;padding:40px;color:#68758a;display:none}
+footer{background:#0d1b34;color:#cbd5e1;padding:35px 20px;text-align:center}footer b{color:#fff;font-size:20px}
+@media(max-width:700px){.navlinks{display:none}.searchbox{display:grid}.primary{height:48px}.stats{grid-template-columns:1fr}.contactgrid{grid-template-columns:1fr}.hero{padding-top:45px}.actions{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="top">🇺🇦 Допомагаємо українцям знаходити роботу в Чехії · 🇨🇿 Працевлаштування та підтримка</div>
+<nav><div class="navin"><a class="logo" href="#">WorkCzech 🇺🇦🇨🇿</a><div class="navlinks"><a href="#jobs">Вакансії</a><a href="#apply">Залишити дані</a><a href="#contacts">Контакти</a></div></div></nav>
+
+<header class="hero"><div class="wrap">
+<div style="font-weight:800">Робота в Чехії без зайвих складнощів</div>
+<h1>Знайди вакансію.<br>Залиш заявку.</h1>
+<p>Переглядай вакансії, обирай зручний спосіб зв'язку та залишай свої контактні дані для підбору роботи.</p>
+<div class="searchbox"><input class="search" id="q" placeholder="🔎 Пошук: місто, компанія, посада..."><button class="primary" onclick="document.getElementById('jobs').scrollIntoView()">Знайти вакансію</button></div>
+</div></header>
+
+<div class="stats wrap">
+<div class="stat"><b>10+</b><span>вакансій</span></div><div class="stat"><b>🇨🇿</b><span>робота по Чехії</span></div><div class="stat"><b>💬</b><span>Telegram · WhatsApp · Viber</span></div>
+</div>
+
+<section class="section" id="jobs"><div class="wrap">
+<h2>🔥 Актуальні вакансії</h2><p class="subtitle">Вакансії відсортовані так, щоб вигідні пропозиції було легше помітити.</p>
+<div class="grid" id="grid"></div><div class="empty" id="empty">За вашим запитом вакансій не знайдено.</div>
+</div></section>
+
+<section class="section" id="apply"><div class="wrap"><div class="contactgrid">
+<div class="panel"><h2>📝 Залишити свої дані</h2><p class="subtitle">Заповни анкету — з тобою зв'яжуться щодо відповідних вакансій.</p>
+<form id="candidateForm">
+<label>Ім'я та прізвище<input id="name" required placeholder="Наприклад: Анна Коваль"></label>
+<label>Номер телефону<input id="phone" required type="tel" placeholder="+420 ... або +380 ..."></label>
+<label>Документи / статус у Чехії<select id="status" required><option value="">Оберіть варіант</option><option>Віза тимчасового захисту</option><option>Довгострокова віза</option><option>Дозвіл на проживання</option><option>Постійне проживання</option><option>Інше / потрібна консультація</option></select></label>
+<label>Бажана робота / місто<textarea id="wish" placeholder="Наприклад: склад у Празі, виробництво в Пльзені..."></textarea></label>
+<label>Документи (за бажанням)<input id="docs" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"></label>
+<div class="notice">🔒 Не завантажуйте сюди паспорти чи інші чутливі документи, доки не буде підключено захищене серверне сховище. Наразі форма готує заявку для надсилання через WhatsApp.</div>
+<button class="submit" type="submit">📲 Підготувати заявку у WhatsApp</button>
+</form></div>
+
+<div class="panel" id="contacts"><h2>💬 Зв'язатися з нами</h2><p class="subtitle">Обери зручний месенджер.</p>
+<div class="contactbuttons">
+<a class="contact tg" href="https://t.me/paskayeheb" target="_blank" rel="noopener">✈️ Telegram · @paskayeheb</a>
+<a class="contact wa" href="https://wa.me/420775166993" target="_blank" rel="noopener">🟢 WhatsApp · +420 775 166 993</a>
+<a class="contact vb" href="viber://chat?number=%2B380975378946">💜 Viber · +380 97 537 8946</a>
+</div><div class="notice" style="margin-top:18px">Після натискання кнопки вакансії можна одразу написати нам у вибраному месенджері.</div></div>
+</div></div></section>
+
+<footer><b>WorkCzech 🇺🇦🇨🇿</b><p>Пошук роботи в Чехії простіше.</p></footer>
+
 <script>
 const jobs=[
-["Lear","Оператор виробництва","Ostrov u Stříbra / Plzeň","від 210 Kč/год","Житло є","tel:+420775166993","Виготовлення автомобільних сидінь, монтаж компонентів та контроль якості. 2 зміни по 8–12 годин."],
-["GXO s.r.o.","Склад / логістика","Bor u Tachova / Plzeň","29 825 Kč/міс","Житло є","tel:+420775166993","Робота на складі та в логістиці. Офіційне працевлаштування HPP."],
-["KOEVER","Виробництво автомобільних модулів","Прага-захід","від 180 Kč/год чистими","Житла немає","tel:+420775166993","3 зміни по 8 годин. Офіційне працевлаштування HPP, 25 днів оплачуваної відпустки."],
-["KAUFLAND","Логістичний центр","Praha-východ","36 500 Kč/міс","Житла немає","tel:+420775166993","Логістичний центр продуктів харчування. 5 днів на тиждень, зміни."],
-["Mubea","Оператор виробництва / VZV","Žebrák / Plzeň","160–165 Kč/год","Житло є","tel:+420775166993","Виробництво автомобільних деталей. 3 зміни по 8–12 годин, можливі додаткові години."],
-["Panasonic","Виробництво / VZV","Plzeň","170–190 Kč/год","Житло є","tel:+420775166993","Виробництво та складські позиції, можливість роботи VZV."],
-["Loxxess","Склад","Bor u Tachova / Plzeň","150–160 Kč/год чистими","Житло є","tel:+420775166993","Збирання та пакування замовлень для інтернет-магазину."],
-["Novares Janovice","Оператор виробництва","Janovice nad Úhlavou","140–174 Kč/год","Житло є","tel:+420775166993","Легка робота на виробництві автомобільних деталей. 3 зміни по 8 годин."],
-["DAIKIN","Оператор виробництва","Plzeň","24 750 Kč/міс + бонуси","Житло є","tel:+420775166993","Виробництво кондиціонерів та компресорів. 3 зміни по 8 годин."],
-["National Pen Czech","Оператор / налагоджувальник / VZV","Štěnovice / Plzeň","150–200+ Kč/год","Житло є","tel:+420775166993","Виробництво та брендування рекламної продукції. Є позиції для операторів, налагоджувальників і VZV."]
+["Lear","Оператор виробництва","Ostrov u Stříbra / Plzeň","від 210 Kč/год","Житло є","Виготовлення автомобільних сидінь, монтаж компонентів та контроль якості. 2 зміни по 8–12 годин."],
+["GXO s.r.o.","Склад / логістика","Bor u Tachova / Plzeň","29 825 Kč/міс","Житло є","Робота на складі та в логістиці. Офіційне працевлаштування HPP."],
+["KOEVER","Виробництво автомобільних модулів","Прага-захід","від 180 Kč/год чистими","Житла немає","3 зміни по 8 годин. Офіційне працевлаштування HPP, 25 днів оплачуваної відпустки."],
+["KAUFLAND","Логістичний центр","Praha-východ","36 500 Kč/міс","Житла немає","Логістичний центр продуктів харчування. 5 днів на тиждень, зміни."],
+["Mubea","Оператор виробництва / VZV","Žebrák / Plzeň","160–165 Kč/год","Житло є","Виробництво автомобільних деталей. 3 зміни по 8–12 годин, можливі додаткові години."],
+["Panasonic","Виробництво / VZV","Plzeň","170–190 Kč/год","Житло є","Виробництво та складські позиції, можливість роботи VZV."],
+["Loxxess","Склад","Bor u Tachova / Plzeň","150–160 Kč/год чистими","Житло є","Збирання та пакування замовлень для інтернет-магазину."],
+["Novares Janovice","Оператор виробництва","Janovice nad Úhlavou","140–174 Kč/год","Житло є","Легка робота на виробництві автомобільних деталей. 3 зміни по 8 годин."],
+["DAIKIN","Оператор виробництва","Plzeň","24 750 Kč/міс + бонуси","Житло є","Виробництво кондиціонерів та компресорів. 3 зміни по 8 годин."],
+["National Pen Czech","Оператор / налагоджувальник / VZV","Štěnovice / Plzeň","150–200+ Kč/год","Житло є","Виробництво та брендування рекламної продукції. Є позиції для операторів, налагоджувальників і VZV."]
 ];
+
+const tg="https://t.me/paskayeheb",wa="https://wa.me/420775166993",vb="viber://chat?number=%2B380975378946";
 const grid=document.getElementById("grid"),q=document.getElementById("q"),empty=document.getElementById("empty");
-function render(){let s=q.value.toLowerCase();let a=jobs.filter(j=>j.join(" ").toLowerCase().includes(s));grid.innerHTML=a.map(j=>`<article class="card"><div class="company">${j[0]}</div><h2>${j[1]}</h2><span class="tag">📍 ${j[2]}</span><span class="tag">🏠 ${j[4]}</span><div class="salary">💰 ${j[3]}</div><p>${j[6]}</p><a class="apply" href="${j[5]}">Зв'язатися</a></article>`).join("");empty.style.display=a.length?"none":"block"}q.addEventListener("input",render);render();
-</script></body></html>
+
+function comments(i){return JSON.parse(localStorage.getItem("wc-comments-"+i)||"[]")}
+function render(){
+ let s=q.value.toLowerCase(), a=jobs.map((j,i)=>[j,i]).filter(x=>x[0].join(" ").toLowerCase().includes(s));
+ grid.innerHTML=a.map(([j,i])=>{
+  const cs=comments(i);
+  return `<article class="card"><div class="company">${j[0]}</div><h3>${j[1]}</h3><div class="tags"><span class="tag">📍 ${j[2]}</span><span class="tag">🏠 ${j[4]}</span></div><div class="salary">💰 ${j[3]}</div><p class="desc">${j[5]}</p>
+  <div class="actions"><a class="btn btn-main" href="${wa}?text=${encodeURIComponent("Вітаю! Мене цікавить вакансія: "+j[1]+" у "+j[2])}" target="_blank" rel="noopener">🟢 WhatsApp</a><a class="btn btn-light" href="${tg}" target="_blank" rel="noopener">✈️ Telegram</a><a class="btn btn-light" href="${vb}">💜 Viber</a><button class="btn btn-light" onclick="showComment(${i})">💬 Коментар (${cs.length})</button></div>
+  <div class="comments" id="comments-${i}" style="display:none"><div id="list-${i}">${cs.map(c=>`<div class="comment"><b>${escapeHtml(c.name)}</b><p>${escapeHtml(c.text)}</p></div>`).join("")}</div>
+  <form onsubmit="addComment(event,${i})" style="margin-top:12px"><input id="cn-${i}" required placeholder="Ваше ім'я"><textarea id="ct-${i}" required placeholder="Ваш коментар..." style="min-height:70px"></textarea><button class="btn btn-main" type="submit">Опублікувати</button></form></div>
+  </article>`
+ }).join(""); empty.style.display=a.length?"none":"block";
+}
+function escapeHtml(v){return v.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function showComment(i){const el=document.getElementById("comments-"+i);el.style.display=el.style.display==="none"?"block":"none"}
+function addComment(e,i){e.preventDefault();const name=document.getElementById("cn-"+i).value.trim(),text=document.getElementById("ct-"+i).value.trim();const cs=comments(i);cs.push({name,text});localStorage.setItem("wc-comments-"+i,JSON.stringify(cs));render();setTimeout(()=>{document.getElementById("comments-"+i).style.display="block"},0)}
+q.addEventListener("input",render);render();
+
+document.getElementById("candidateForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const name=document.getElementById("name").value,phone=document.getElementById("phone").value,status=document.getElementById("status").value,wish=document.getElementById("wish").value,files=[...document.getElementById("docs").files].map(f=>f.name).join(", ");
+ const msg="Заявка WorkCzech%0AІм'я: "+encodeURIComponent(name)+"%0AТелефон: "+encodeURIComponent(phone)+"%0AДокументи/статус: "+encodeURIComponent(status)+"%0AБажана робота: "+encodeURIComponent(wish||"Не вказано")+"%0AФайли: "+encodeURIComponent(files||"Не додано");
+ window.open("https://wa.me/420775166993?text="+msg,"_blank");
+});
+</script>
+</body></html>

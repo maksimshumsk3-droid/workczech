@@ -18,7 +18,7 @@ nav{position:sticky;top:0;z-index:10;background:#ffffffee;backdrop-filter:blur(1
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px}.card{background:var(--card);padding:22px;border-radius:20px;border:1px solid var(--line);box-shadow:0 8px 28px #14213d0a;transition:.2s}.card:hover{transform:translateY(-3px);box-shadow:0 14px 35px #14213d16}.company{color:var(--blue);font-weight:800;font-size:14px}.card h3{font-size:20px;margin:8px 0 13px}.salary{font-size:21px;font-weight:900;margin:14px 0}.tags{display:flex;flex-wrap:wrap;gap:6px}.tag{background:#f0f4fa;padding:7px 9px;border-radius:999px;font-size:12px;color:#475569}.desc{color:#526078;line-height:1.55;min-height:72px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:17px}.btn{border:0;border-radius:11px;padding:11px 8px;text-align:center;font-weight:800;cursor:pointer;font-size:14px}.btn-main{background:#25D366;color:#fff}.btn-main:hover{background:#1ebe5d}.btn-light{background:#eef3ff;color:var(--blue)}.btn-telegram{background:#229ED9;color:#fff}.btn-telegram:hover{background:#168ac0}.btn-viber{background:#7360F2;color:#fff}.btn-viber:hover{background:#5d4bd1}
 .contactgrid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:25px;box-shadow:0 8px 28px #14213d0a}.panel h3{margin-top:0}.contactbuttons{display:grid;gap:10px}.contact{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:12px;color:#fff;font-weight:800}.tg{background:#229ed9}.wa{background:#20b958}.vb{background:#665cac}
 form{display:grid;gap:12px}label{font-size:13px;font-weight:800}input,select,textarea{width:100%;padding:13px;border:1px solid #d8dfeb;border-radius:11px;font:inherit;background:#fff}textarea{min-height:100px;resize:vertical}.submit{background:var(--blue);color:#fff;border:0;border-radius:12px;padding:14px;font-weight:900;cursor:pointer}.notice{font-size:12px;color:#64748b;line-height:1.5;background:#f7f9fd;padding:12px;border-radius:10px}.empty{text-align:center;padding:40px;color:#68758a;display:none}
-footer{background:#0d1b34;color:#cbd5e1;padding:35px 20px;text-align:center}footer b{color:#fff;font-size:20px}
+footer{background:linear-gradient(135deg,#0b1830,#102f73);color:#cbd5e1;padding:0;text-align:center}footer b{color:#fff;font-size:20px}.contact-section{padding:68px 20px 58px;background:linear-gradient(180deg,#eef4ff 0%,#f8faff 100%)}.contact-wrap{max-width:1160px;margin:auto}.contact-head{text-align:center;max-width:720px;margin:0 auto 30px}.contact-head h2{font-size:36px;margin:0 0 10px;color:#10224a}.contact-head p{color:#64748b;font-size:16px;line-height:1.6;margin:0}.contact-card{background:#fff;border:1px solid #dfe7f5;border-radius:26px;padding:28px;box-shadow:0 18px 45px #18356f14;display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}.contact-info h3{font-size:24px;margin:0 0 10px}.contact-info p{color:#64748b;line-height:1.6;margin:0 0 18px}.contact-badges{display:flex;gap:8px;flex-wrap:wrap}.contact-badge{background:#f1f5fb;border-radius:999px;padding:8px 11px;font-size:12px;font-weight:800;color:#42516b}.contactbuttons{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.contact{min-height:54px}.footer-bottom{border-top:1px solid #ffffff18;padding:24px 20px;margin-top:28px;font-size:13px}@media(max-width:700px){.contact-card{grid-template-columns:1fr}.contactbuttons{grid-template-columns:1fr}.contact-section{padding:50px 20px 45px}}
 @media(max-width:700px){.navlinks{display:none}.searchbox{display:grid}.primary{height:48px}.stats{grid-template-columns:1fr}.contactgrid{grid-template-columns:1fr}.hero{padding-top:45px}.actions{grid-template-columns:1fr}}
 </style>
 </head>
@@ -49,12 +49,7 @@ footer{background:#0d1b34;color:#cbd5e1;padding:35px 20px;text-align:center}foot
 <button class="submit" type="submit">📲 Підготувати заявку у WhatsApp</button>
 </form></div>
 
-<div class="panel" id="contacts"><h2>💬 Зв'язатися з нами</h2><p class="subtitle">Обери зручний месенджер.</p>
-<div class="contactbuttons">
-<a class="contact tg" href="https://t.me/paskayeheb" target="_blank" rel="noopener">✈️ Telegram · @paskayeheb</a>
-<a class="contact wa" href="https://wa.me/420775166993" target="_blank" rel="noopener">🟢 WhatsApp · +420 775 166 993</a>
-<a class="contact vb" href="viber://chat?number=%2B380975378946">💜 Viber · +380 97 537 8946</a>
-</div><div class="notice" style="margin-top:18px">Після натискання кнопки вакансії можна одразу написати нам у вибраному месенджері.</div></div>
+
 </div></div></section>
 
 <section class="section" id="jobs"><div class="wrap">
@@ -73,7 +68,16 @@ footer{background:#0d1b34;color:#cbd5e1;padding:35px 20px;text-align:center}foot
 </div><div class="empty" id="empty">За вашим запитом вакансій не знайдено.</div>
 </div></section>
 
-<footer><b>WorkCzech 🇺🇦🇨🇿</b><p>Пошук роботи в Чехії простіше.</p></footer>
+<section class="contact-section" id="contacts"><div class="contact-wrap">
+<div class="contact-head"><h2>💬 Зв'язатися з нами</h2><p>Є питання щодо вакансії або хочеш підібрати роботу? Напиши нам — допоможемо зорієнтуватися та підкажемо наступні кроки.</p></div>
+<div class="contact-card">
+<div class="contact-info"><h3>Ми на зв'язку 🤝</h3><p>Обери зручний месенджер. Можна написати щодо конкретної вакансії або просто розповісти, яку роботу ти шукаєш.</p><div class="contact-badges"><span class="contact-badge">⚡ Швидка відповідь</span><span class="contact-badge">🇺🇦 Українська мова</span><span class="contact-badge">🇨🇿 Робота в Чехії</span></div></div>
+<div class="contactbuttons">
+<a class="contact tg" href="https://t.me/paskayeheb" target="_blank" rel="noopener">✈️ Telegram</a>
+<a class="contact wa" href="https://wa.me/420775166993" target="_blank" rel="noopener">🟢 WhatsApp</a>
+<a class="contact vb" href="viber://chat?number=%2B380975378946">💜 Viber</a>
+</div></div></div></section>
+<footer><b>WorkCzech 🇺🇦🇨🇿</b><p>Пошук роботи в Чехії простіше.</p><div class="footer-bottom">WorkCzech · Вакансії · Підтримка · Контакти</div></footer>
 
 <script>
 const jobs=[

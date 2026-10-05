@@ -16,7 +16,7 @@ nav{position:sticky;top:0;z-index:10;background:#ffffffee;backdrop-filter:blur(1
 .section{padding:54px 20px}.section h2{font-size:32px;margin:0 0 8px}.subtitle{color:var(--muted);margin:0 0 25px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px}.card{background:var(--card);padding:22px;border-radius:20px;border:1px solid var(--line);box-shadow:0 8px 28px #14213d0a;transition:.2s}.card:hover{transform:translateY(-3px);box-shadow:0 14px 35px #14213d16}.company{color:var(--blue);font-weight:800;font-size:14px}.card h3{font-size:20px;margin:8px 0 13px}.salary{font-size:21px;font-weight:900;margin:14px 0}.tags{display:flex;flex-wrap:wrap;gap:6px}.tag{background:#f0f4fa;padding:7px 9px;border-radius:999px;font-size:12px;color:#475569}.desc{color:#526078;line-height:1.55;min-height:72px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:17px}.btn{border:0;border-radius:11px;padding:11px 8px;text-align:center;font-weight:800;cursor:pointer;font-size:14px}.btn-main{background:var(--blue);color:#fff}.btn-light{background:#eef3ff;color:var(--blue)}
 .contactgrid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:25px;box-shadow:0 8px 28px #14213d0a}.panel h3{margin-top:0}.contactbuttons{display:grid;gap:10px}.contact{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:12px;color:#fff;font-weight:800}.tg{background:#229ed9}.wa{background:#20b958}.vb{background:#665cac}
-form{display:grid;gap:12px}label{font-size:13px;font-weight:800}input,select,textarea{width:100%;padding:13px;border:1px solid #d8dfeb;border-radius:11px;font:inherit;background:#fff}textarea{min-height:100px;resize:vertical}.submit{background:var(--blue);color:#fff;border:0;border-radius:12px;padding:14px;font-weight:900;cursor:pointer}.notice{font-size:12px;color:#64748b;line-height:1.5;background:#f7f9fd;padding:12px;border-radius:10px}.comments{margin-top:18px;border-top:1px solid var(--line);padding-top:15px}.comment{padding:11px 0;border-bottom:1px solid #edf0f5}.comment b{font-size:13px}.comment p{margin:5px 0;color:#526078;font-size:14px}.empty{text-align:center;padding:40px;color:#68758a;display:none}
+form{display:grid;gap:12px}label{font-size:13px;font-weight:800}input,select,textarea{width:100%;padding:13px;border:1px solid #d8dfeb;border-radius:11px;font:inherit;background:#fff}textarea{min-height:100px;resize:vertical}.submit{background:var(--blue);color:#fff;border:0;border-radius:12px;padding:14px;font-weight:900;cursor:pointer}.notice{font-size:12px;color:#64748b;line-height:1.5;background:#f7f9fd;padding:12px;border-radius:10px}.empty{text-align:center;padding:40px;color:#68758a;display:none}
 footer{background:#0d1b34;color:#cbd5e1;padding:35px 20px;text-align:center}footer b{color:#fff;font-size:20px}
 @media(max-width:700px){.navlinks{display:none}.searchbox{display:grid}.primary{height:48px}.stats{grid-template-columns:1fr}.contactgrid{grid-template-columns:1fr}.hero{padding-top:45px}.actions{grid-template-columns:1fr}}
 </style>
@@ -78,24 +78,7 @@ const jobs=[
 ];
 
 const tg="https://t.me/paskayeheb",wa="https://wa.me/420775166993",vb="viber://chat?number=%2B380975378946";
-const grid=document.getElementById("grid"),q=document.getElementById("q"),empty=document.getElementById("empty");
-
-function comments(i){return JSON.parse(localStorage.getItem("wc-comments-"+i)||"[]")}
-function render(){
- let s=q.value.toLowerCase(), a=jobs.map((j,i)=>[j,i]).filter(x=>x[0].join(" ").toLowerCase().includes(s));
- grid.innerHTML=a.map(([j,i])=>{
-  const cs=comments(i);
-  return `<article class="card"><div class="company">${j[0]}</div><h3>${j[1]}</h3><div class="tags"><span class="tag">📍 ${j[2]}</span><span class="tag">🏠 ${j[4]}</span></div><div class="salary">💰 ${j[3]}</div><p class="desc">${j[5]}</p>
-  <div class="actions"><a class="btn btn-main" href="${wa}?text=${encodeURIComponent("Вітаю! Мене цікавить вакансія: "+j[1]+" у "+j[2])}" target="_blank" rel="noopener">🟢 WhatsApp</a><a class="btn btn-light" href="${tg}" target="_blank" rel="noopener">✈️ Telegram</a><a class="btn btn-light" href="${vb}">💜 Viber</a><button class="btn btn-light" onclick="showComment(${i})">💬 Коментар (${cs.length})</button></div>
-  <div class="comments" id="comments-${i}" style="display:none"><div id="list-${i}">${cs.map(c=>`<div class="comment"><b>${escapeHtml(c.name)}</b><p>${escapeHtml(c.text)}</p></div>`).join("")}</div>
-  <form onsubmit="addComment(event,${i})" style="margin-top:12px"><input id="cn-${i}" required placeholder="Ваше ім'я"><textarea id="ct-${i}" required placeholder="Ваш коментар..." style="min-height:70px"></textarea><button class="btn btn-main" type="submit">Опублікувати</button></form></div>
-  </article>`
- }).join(""); empty.style.display=a.length?"none":"block";
-}
-function escapeHtml(v){return v.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-function showComment(i){const el=document.getElementById("comments-"+i);el.style.display=el.style.display==="none"?"block":"none"}
-function addComment(e,i){e.preventDefault();const name=document.getElementById("cn-"+i).value.trim(),text=document.getElementById("ct-"+i).value.trim();const cs=comments(i);cs.push({name,text});localStorage.setItem("wc-comments-"+i,JSON.stringify(cs));render();setTimeout(()=>{document.getElementById("comments-"+i).style.display="block"},0)}
-q.addEventListener("input",render);render();
+const grid=document.getElementById("grid"),q=document.getElementById("q"),empty=document.getElementById("empty");q.addEventListener("input",render);render();
 
 document.getElementById("candidateForm").addEventListener("submit",e=>{
  e.preventDefault();
